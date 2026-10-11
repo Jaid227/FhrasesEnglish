@@ -1,0 +1,1345 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Textos en Inglés por Niveles</title>
+<style>
+  :root {
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --text: #1a1a1a;
+    --text-soft: #555;
+    --accent: #0984e3;
+    --accent-2: #00b894;
+    --beginner: #00b894;
+    --medium: #f39c12;
+    --advanced: #6c5ce7;
+    --expert: #d63031;
+    --border: #e0e0e0;
+    --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    --check-bg: #f9f9fc;
+    --vocab-bg: #eef6ff;
+    --grammar-bg: #fff8e1;
+    --note-bg: #f0fdf4;
+    --en-bg: #f8faff;
+  }
+  [data-theme="dark"] {
+    --bg: #0f0f17;
+    --card: #1a1a25;
+    --text: #eaeaea;
+    --text-soft: #a0a0b0;
+    --accent: #74b9ff;
+    --accent-2: #55efc4;
+    --beginner: #55efc4;
+    --medium: #fdcb6e;
+    --advanced: #a29bfe;
+    --expert: #ff7675;
+    --border: #2a2a3a;
+    --shadow: 0 4px 20px rgba(0,0,0,0.5);
+    --check-bg: #202030;
+    --vocab-bg: #1c2733;
+    --grammar-bg: #332e1a;
+    --note-bg: #1a3329;
+    --en-bg: #1a1f2e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background 0.3s, color 0.3s;
+    padding-bottom: 80px;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  header h1 {
+    font-size: 1.15rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .theme-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: transform 0.2s;
+  }
+  .theme-btn:hover { transform: scale(1.05); }
+
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  .intro {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .intro h2 {
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+  }
+  .intro p { color: var(--text-soft); margin-bottom: 0.75rem; }
+
+  .level-legend {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+    font-size: 0.82rem;
+  }
+  .level-legend span {
+    padding: 0.25rem 0.7rem;
+    border-radius: 50px;
+    color: white;
+    font-weight: 700;
+  }
+  .level-legend .beg { background: var(--beginner); color: #000; }
+  .level-legend .med { background: var(--medium); color: #000; }
+  .level-legend .adv { background: var(--advanced); }
+  .level-legend .exp { background: var(--expert); }
+
+  .progress-bar {
+    background: var(--border);
+    height: 10px;
+    border-radius: 50px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+  }
+  .progress-bar > div {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 0.5s;
+    width: 0%;
+  }
+  #progressTxt {
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    font-weight: 600;
+  }
+
+  .search-box {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .search-box:focus { outline: 2px solid var(--accent); }
+
+  .filter-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  .filter-row button {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+    padding: 0.4rem 0.9rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .filter-row button.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .filter-row button:hover:not(.active) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .filter-row.levels button.active[data-level="beginner"] { background: var(--beginner); border-color: var(--beginner); color: #000; }
+  .filter-row.levels button.active[data-level="medium"] { background: var(--medium); border-color: var(--medium); color: #000; }
+  .filter-row.levels button.active[data-level="advanced"] { background: var(--advanced); border-color: var(--advanced); }
+  .filter-row.levels button.active[data-level="expert"] { background: var(--expert); border-color: var(--expert); }
+
+  .level-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin: 2rem 0 0.4rem;
+    padding-left: 0.6rem;
+    border-left: 5px solid;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .level-title.beginner { color: var(--beginner); border-color: var(--beginner); }
+  .level-title.medium { color: var(--medium); border-color: var(--medium); }
+  .level-title.advanced { color: var(--advanced); border-color: var(--advanced); }
+  .level-title.expert { color: var(--expert); border-color: var(--expert); }
+
+  .level-desc {
+    color: var(--text-soft);
+    font-size: 0.88rem;
+    margin-bottom: 1rem;
+    padding-left: 0.7rem;
+    font-style: italic;
+  }
+
+  /* Tarjeta de texto */
+  .text-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: all 0.25s;
+    position: relative;
+  }
+  .text-card:hover { border-color: var(--accent); }
+  .text-card.read { background: var(--check-bg); }
+  .text-card.read .text-title { opacity: 0.6; }
+
+  .text-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .text-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--accent);
+    word-break: break-word;
+  }
+  .text-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    font-style: italic;
+    margin-top: 0.15rem;
+  }
+
+  .text-check {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--bg);
+    padding: 0.25rem 0.65rem;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .text-check label {
+    font-size: 0.7rem;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+  .text-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--accent-2);
+  }
+
+  /* Bloque del texto en inglés */
+  .en-text {
+    background: var(--en-bg);
+    border-radius: 12px;
+    padding: 1rem 1.15rem;
+    margin-bottom: 0.85rem;
+    border-left: 4px solid var(--accent);
+    font-size: 0.98rem;
+    line-height: 1.75;
+    color: var(--text);
+  }
+  .en-text p { margin-bottom: 0.75rem; }
+  .en-text p:last-child { margin-bottom: 0; }
+  .en-text .key {
+    background: rgba(9, 132, 227, 0.15);
+    color: var(--accent);
+    padding: 0.05rem 0.35rem;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: help;
+    border-bottom: 1px dashed var(--accent);
+  }
+  [data-theme="dark"] .en-text .key {
+    background: rgba(116, 185, 255, 0.2);
+  }
+
+  /* Botones de traducción */
+  .toggle-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-family: inherit;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+  .toggle-btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+  }
+  .toggle-btn .arrow {
+    transition: transform 0.3s;
+    display: inline-block;
+  }
+  .toggle-btn.open .arrow {
+    transform: rotate(180deg);
+  }
+
+  /* Panel de traducción */
+  .translation-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+  }
+  .translation-panel.open {
+    max-height: 3000px;
+    transition: max-height 1s ease;
+  }
+  .translation-content {
+    background: var(--check-bg);
+    border-radius: 12px;
+    padding: 1rem 1.15rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--accent-2);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--text-soft);
+    font-style: italic;
+  }
+  .translation-content p { margin-bottom: 0.6rem; }
+  .translation-content p:last-child { margin-bottom: 0; }
+
+  /* Secciones explicativas */
+  .section-block {
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 0.75rem;
+    border-left: 4px solid;
+    font-size: 0.9rem;
+  }
+  .section-block h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .vocab-block {
+    background: var(--vocab-bg);
+    border-color: var(--accent);
+  }
+  .vocab-block h4 { color: var(--accent); }
+  .vocab-block ul {
+    margin-left: 1.2rem;
+    color: var(--text-soft);
+    font-size: 0.87rem;
+  }
+  .vocab-block li { margin-bottom: 0.3rem; }
+  .vocab-block strong { color: var(--text); }
+
+  .grammar-block {
+    background: var(--grammar-bg);
+    border-color: var(--medium);
+  }
+  .grammar-block h4 { color: var(--medium); }
+  .grammar-block p {
+    color: var(--text-soft);
+    font-size: 0.87rem;
+    margin-bottom: 0.5rem;
+  }
+  .grammar-block code {
+    background: var(--card);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Courier New", monospace;
+    font-size: 0.9em;
+    color: var(--accent);
+    border: 1px solid var(--border);
+  }
+  .grammar-block ul {
+    margin-left: 1.2rem;
+    color: var(--text-soft);
+    font-size: 0.87rem;
+  }
+  .grammar-block li { margin-bottom: 0.3rem; }
+
+  .note-block {
+    background: var(--note-bg);
+    border-color: var(--accent-2);
+  }
+  .note-block h4 { color: var(--accent-2); }
+  .note-block p {
+    color: var(--text-soft);
+    font-size: 0.87rem;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    border-top: 1px solid var(--border);
+    background: var(--card);
+    margin-top: 2rem;
+  }
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  footer a:hover {
+    color: var(--accent-2);
+    text-decoration: underline;
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--text-soft);
+    padding: 2rem;
+    font-style: italic;
+  }
+
+  @media (max-width: 640px) {
+    header h1 { font-size: 0.95rem; }
+    .intro h2 { font-size: 1.1rem; }
+    main { padding: 1rem; }
+    .en-text { font-size: 0.92rem; padding: 0.85rem; }
+    .translation-content { font-size: 0.88rem; }
+    .section-block { font-size: 0.85rem; padding: 0.75rem 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📖 Textos en Inglés por Niveles</h1>
+  <button class="theme-btn" id="themeToggle">🌙 Modo Oscuro</button>
+</header>
+
+<main>
+
+  <div class="intro">
+    <h2>Aprende leyendo textos cortos y contextualizados</h2>
+    <p>Cada texto incluye su <strong>traducción desplegable</strong>, <strong>vocabulario clave</strong>, <strong>explicaciones gramaticales</strong> y <strong>notas culturales o tips</strong>. Marca ✓ cuando ya domines el texto.</p>
+    <div class="level-legend">
+      <span class="beg">🟢 Principiante</span>
+      <span class="med">🟡 Medio</span>
+      <span class="adv">🟣 Avanzado</span>
+      <span class="exp">🔴 Experto</span>
+    </div>
+    <div class="progress-bar" style="margin-top:1rem;"><div id="progressBar"></div></div>
+    <p id="progressTxt">0 de 0 textos dominados</p>
+  </div>
+
+  <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar texto, palabra o tema...">
+
+  <div class="filter-row levels" id="levelFilters">
+    <button class="active" data-level="all">Todos los niveles</button>
+    <button data-level="beginner">🟢 Principiante</button>
+    <button data-level="medium">🟡 Medio</button>
+    <button data-level="advanced">🟣 Avanzado</button>
+    <button data-level="expert">🔴 Experto</button>
+  </div>
+
+  <div id="textsContainer"></div>
+
+</main>
+
+<footer>
+  <a href="https://jaid227.github.io/EntropiaDigital/" target="_blank" rel="noopener">
+    → © 2026 Mandrágora Entrópica | Desarrollo Web Estratégico ←
+  </a>
+</footer>
+
+<script>
+// ============ DATOS: TEXTOS ============
+const textos = [
+
+  // ==================== 🟢 PRINCIPIANTE ====================
+  {
+    level: "beginner",
+    title: "My Daily Routine",
+    subtitle: "Mi rutina diaria",
+    en: [
+      "My name is **Anna**. I **wake up** at seven o'clock every morning. First, I **brush my teeth** and **take a shower**. Then, I **have breakfast** with my family.",
+      "I **go to school** by bus. My classes **start** at eight. I **study** English, math, and science. I **like** English very much.",
+      "In the afternoon, I **do my homework** and **play** with my dog. In the evening, I **have dinner** and **watch** TV. I **go to bed** at ten o'clock."
+    ],
+    es: [
+      "Mi nombre es Anna. Me despierto a las siete cada mañana. Primero, me cepillo los dientes y me ducho. Luego, desayuno con mi familia.",
+      "Voy a la escuela en autobús. Mis clases empiezan a las ocho. Estudio inglés, matemáticas y ciencias. Me gusta mucho el inglés.",
+      "Por la tarde, hago mi tarea y juego con mi perro. Por la noche, ceno y veo televisión. Me acuesto a las diez."
+    ],
+    vocab: [
+      { en: "wake up", es: "despertarse" },
+      { en: "brush my teeth", es: "cepillarse los dientes" },
+      { en: "take a shower", es: "ducharse" },
+      { en: "have breakfast", es: "desayunar" },
+      { en: "go to school", es: "ir a la escuela" },
+      { en: "do homework", es: "hacer la tarea" },
+      { en: "go to bed", es: "acostarse" }
+    ],
+    grammar: [
+      "**Presente simple** para rutinas: <code>I wake up</code>, <code>she goes</code>.",
+      "**Preposiciones de tiempo:** <code>at</code> + hora (<code>at seven</code>), <code>in</code> + parte del día (<code>in the morning</code>).",
+      "**Verbos con <em>have</em>:** <code>have breakfast / lunch / dinner</code>."
+    ],
+    note: "En inglés, las rutinas diarias casi siempre se cuentan en **presente simple**, no en presente continuo. Es un error muy común decir <em>'I am waking up at 7'</em> cuando en realidad es <em>'I wake up at 7'</em>."
+  },
+  {
+    level: "beginner",
+    title: "My Family",
+    subtitle: "Mi familia",
+    en: [
+      "I **have** a small family. There **are** four people in my family: my mother, my father, my sister, and me.",
+      "My mother **is** a teacher. She **works** in a school. My father **is** a doctor. He **works** in a hospital. My sister **is** ten years old. She **likes** to draw.",
+      "We **live** in a small house near the park. On weekends, we **go** to the park together. I **love** my family very much."
+    ],
+    es: [
+      "Tengo una familia pequeña. Somos cuatro personas en mi familia: mi madre, mi padre, mi hermana y yo.",
+      "Mi madre es maestra. Trabaja en una escuela. Mi padre es doctor. Trabaja en un hospital. Mi hermana tiene diez años. Le gusta dibujar.",
+      "Vivimos en una casa pequeña cerca del parque. Los fines de semana vamos al parque juntos. Amo mucho a mi familia."
+    ],
+    vocab: [
+      { en: "family", es: "familia" },
+      { en: "mother / father", es: "madre / padre" },
+      { en: "sister / brother", es: "hermana / hermano" },
+      { en: "teacher / doctor", es: "maestro / doctor" },
+      { en: "hospital", es: "hospital" }
+    ],
+    grammar: [
+      "**Verbo <em>to be</em>:** <code>I am</code>, <code>she is</code>, <code>they are</code>.",
+      "**<em>There is / There are</em>:** para decir que algo existe. <code>There are four people</code> (plural).",
+      "**Posesivos:** <code>my</code>, <code>your</code>, <code>his</code>, <code>her</code>. Ojo: <code>my sister</code>, no <em>the my sister</em>."
+    ],
+    note: "Cuando hablamos de la edad en inglés se usa el verbo <strong>to be</strong>, no <strong>to have</strong>: <em>'She is ten years old'</em> ✅, no <em>'She has ten years'</em> ❌."
+  },
+  {
+    level: "beginner",
+    title: "At the Supermarket",
+    subtitle: "En el supermercado",
+    en: [
+      "Today I **go** to the supermarket. I **need** to buy some food. I **take** a shopping cart and **walk** through the aisles.",
+      "First, I **buy** some apples and bananas. Then, I **get** milk, bread, and eggs. Finally, I **pick** some cheese and tomatoes.",
+      "I **go** to the cashier and **pay**. The total **is** twenty dollars. I **say** thank you and **go** home happy."
+    ],
+    es: [
+      "Hoy voy al supermercado. Necesito comprar algo de comida. Tomo un carrito y camino por los pasillos.",
+      "Primero, compro manzanas y plátanos. Luego, tomo leche, pan y huevos. Finalmente, tomo queso y tomates.",
+      "Voy a la caja y pago. El total son veinte dólares. Digo gracias y voy a casa feliz."
+    ],
+    vocab: [
+      { en: "supermarket", es: "supermercado" },
+      { en: "shopping cart", es: "carrito de compras" },
+      { en: "aisle", es: "pasillo" },
+      { en: "cashier", es: "cajero/a" },
+      { en: "to pay", es: "pagar" }
+    ],
+    grammar: [
+      "**Conectores de secuencia:** <code>First</code>, <code>Then</code>, <code>Finally</code>. Muy útiles para narrar.",
+      "**Verbos regulares en presente:** <code>I buy</code>, <code>I walk</code>, <code>I pay</code>.",
+      "**Sustantivos incontables:** <em>milk</em>, <em>bread</em>, <em>cheese</em> no llevan <code>-s</code> en plural."
+    ],
+    note: "En inglés, **bread**, **milk** y **cheese** son incontables. No se dice <em>two breads</em>; se dice <em>two loaves of bread</em> o <em>two slices of bread</em>."
+  },
+  {
+    level: "beginner",
+    title: "My Favorite Season",
+    subtitle: "Mi estación favorita",
+    en: [
+      "My favorite season **is** summer. I **love** the warm weather and the long days. There **is** no school in summer, so I **have** a lot of free time.",
+      "In summer, I **go** to the beach with my family. We **swim** in the sea and **play** in the sand. I **eat** ice cream every day.",
+      "Sometimes, I **visit** my grandparents in the countryside. We **pick** fruits and **ride** bikes. Summer **is** always fun."
+    ],
+    es: [
+      "Mi estación favorita es el verano. Amo el clima cálido y los días largos. No hay escuela en verano, así que tengo mucho tiempo libre.",
+      "En verano, voy a la playa con mi familia. Nadamos en el mar y jugamos en la arena. Como helado todos los días.",
+      "A veces, visito a mis abuelos en el campo. Recogemos frutas y andamos en bicicleta. El verano siempre es divertido."
+    ],
+    vocab: [
+      { en: "season", es: "estación" },
+      { en: "summer / winter", es: "verano / invierno" },
+      { en: "beach", es: "playa" },
+      { en: "countryside", es: "campo" },
+      { en: "grandparents", es: "abuelos" }
+    ],
+    grammar: [
+      "**Adjetivos posesivos:** <code>My favorite season</code>.",
+      "**<em>There is / There are</em>:** <code>There is no school</code>.",
+      "**Adverbios de frecuencia:** <code>always</code>, <code>sometimes</code>, <code>often</code>."
+    ],
+    note: "En inglés, los nombres de las estaciones **no se escriben con mayúscula** (excepto al inicio de oración): <em>summer</em>, <em>winter</em>, <em>spring</em>, <em>fall/autumn</em>."
+  },
+  {
+    level: "beginner",
+    title: "A Trip to the Zoo",
+    subtitle: "Un viaje al zoológico",
+    en: [
+      "Last weekend, I **went** to the zoo with my class. We **took** a big yellow bus. The trip **was** one hour long.",
+      "At the zoo, we **saw** many animals. We **watched** the lions sleep and the monkeys play. My favorite **was** the elephant. It **was** very big!",
+      "We **ate** lunch under a tree. Then, we **bought** some souvenirs. I **had** a great time with my friends."
+    ],
+    es: [
+      "El fin de semana pasado, fui al zoológico con mi clase. Tomamos un autobús amarillo grande. El viaje duró una hora.",
+      "En el zoológico, vimos muchos animales. Vimos a los leones dormir y a los monos jugar. Mi favorito fue el elefante. ¡Era muy grande!",
+      "Comimos debajo de un árbol. Luego, compramos algunos recuerdos. La pasé muy bien con mis amigos."
+    ],
+    vocab: [
+      { en: "zoo", es: "zoológico" },
+      { en: "animals", es: "animales" },
+      { en: "lion / monkey / elephant", es: "león / mono / elefante" },
+      { en: "souvenir", es: "recuerdo" },
+      { en: "trip", es: "viaje" }
+    ],
+    grammar: [
+      "**Pasado simple** para narrar hechos terminados: <code>went</code>, <code>saw</code>, <code>ate</code>, <code>bought</code>.",
+      "**Verbos irregulares comunes:** go → went, see → saw, eat → ate, buy → bought.",
+      "**Expresiones de tiempo pasado:** <code>last weekend</code>, <code>yesterday</code>, <code>last month</code>."
+    ],
+    note: "Cuando cuentas una anécdota en inglés, casi todo va en **pasado simple**. El error típico es mezclar presente y pasado: <em>'I go to the zoo and saw lions'</em> ❌. Lo correcto es <em>'I went to the zoo and saw lions'</em> ✅."
+  },
+  {
+    level: "beginner",
+    title: "My Best Friend",
+    subtitle: "Mi mejor amigo",
+    en: [
+      "My best friend's name **is** Carlos. He **is** fifteen years old. We **met** at school five years ago.",
+      "Carlos **is** tall and **has** short black hair. He **is** funny and kind. He **likes** soccer and video games. I **like** the same things.",
+      "We **play** soccer every Saturday. Sometimes we **go** to the movies. We **help** each other with homework. He **is** like a brother to me."
+    ],
+    es: [
+      "El nombre de mi mejor amigo es Carlos. Tiene quince años. Nos conocimos en la escuela hace cinco años.",
+      "Carlos es alto y tiene el cabello negro corto. Es divertido y amable. Le gusta el fútbol y los videojuegos. A mí me gustan las mismas cosas.",
+      "Jugamos fútbol cada sábado. A veces vamos al cine. Nos ayudamos con la tarea. Él es como un hermano para mí."
+    ],
+    vocab: [
+      { en: "best friend", es: "mejor amigo" },
+      { en: "tall / short", es: "alto / bajo" },
+      { en: "funny / kind", es: "divertido / amable" },
+      { en: "video games", es: "videojuegos" },
+      { en: "each other", es: "el uno al otro" }
+    ],
+    grammar: [
+      "**Descripción física:** <code>He is tall</code>, <code>He has black hair</code>.",
+      "**<em>Like</em> + sustantivo/verbo-ing:** <code>He likes soccer</code>, <code>I like playing</code>.",
+      "**Expresión de tiempo:** <code>five years ago</code>, <code>every Saturday</code>."
+    ],
+    note: "En inglés, **<em>like</em>** se usa para gustos generales. Si quieres decir 'me gusta hacer algo', se dice <em>I like playing soccer</em> o <em>I like to play soccer</em>. Ambas son correctas."
+  },
+
+  // ==================== 🟡 MEDIO ====================
+  {
+    level: "medium",
+    title: "My First Job",
+    subtitle: "Mi primer trabajo",
+    en: [
+      "When I **was** eighteen, I **got** my first job at a coffee shop. I **was** very nervous on my first day, but my coworkers **were** friendly and **helped** me a lot.",
+      "I **worked** there for a year. I **learned** how to make different kinds of coffee and how to talk to customers. Some days **were** really busy, but I **enjoyed** it.",
+      "That job **taught** me the value of responsibility and patience. I **would recommend** everyone to have this kind of experience when they **are** young."
+    ],
+    es: [
+      "Cuando tenía dieciocho años, conseguí mi primer trabajo en una cafetería. Estaba muy nervioso el primer día, pero mis compañeros eran amables y me ayudaron mucho.",
+      "Trabajé allí durante un año. Aprendí a hacer diferentes tipos de café y a hablar con los clientes. Algunos días eran muy ocupados, pero lo disfrutaba.",
+      "Ese trabajo me enseñó el valor de la responsabilidad y la paciencia. Recomendaría a todos tener este tipo de experiencia cuando son jóvenes."
+    ],
+    vocab: [
+      { en: "first job", es: "primer trabajo" },
+      { en: "nervous", es: "nervioso" },
+      { en: "coworkers", es: "compañeros de trabajo" },
+      { en: "responsibility", es: "responsabilidad" },
+      { en: "experience", es: "experiencia" }
+    ],
+    grammar: [
+      "**Verbo <em>to be</em> en pasado:** <code>was</code> (I/he/she/it), <code>were</code> (you/we/they).",
+      "**<em>Would</em> + verbo base** para condicionales hipotéticos: <code>I would recommend</code>.",
+      "**<em>How to</em> + verbo** para hablar de habilidades: <code>how to make</code>."
+    ],
+    note: "Fíjate en la diferencia entre **<em>I would recommend</em>** (lo recomendaría, hipotético) y **<em>I recommend</em>** (lo recomiendo, real). El <em>would</em> suaviza y da un tono más reflexivo."
+  },
+  {
+    level: "medium",
+    title: "A Day in London",
+    subtitle: "Un día en Londres",
+    en: [
+      "Last summer, I **traveled** to London with my sister. We **stayed** there for a week and **visited** many famous places.",
+      "On the first day, we **took** the subway to the city center. We **saw** Big Ben, the Houses of Parliament, and the London Eye. In the afternoon, we **walked** along the River Thames and **took** lots of photos.",
+      "The food **was** interesting. We **tried** fish and chips, and of course, we **drank** tea in a traditional tearoom. The weather **was** cloudy most days, but we **didn't mind** — we **were** too excited to care."
+    ],
+    es: [
+      "El verano pasado, viajé a Londres con mi hermana. Nos quedamos allí una semana y visitamos muchos lugares famosos.",
+      "El primer día, tomamos el metro al centro de la ciudad. Vimos el Big Ben, el Parlamento y el London Eye. Por la tarde, caminamos a lo largo del río Támesis y tomamos muchas fotos.",
+      "La comida fue interesante. Probamos fish and chips, y por supuesto, tomamos té en una sala de té tradicional. El clima estaba nublado la mayoría de los días, pero no nos importó: estábamos demasiado emocionados para que nos importara."
+    ],
+    vocab: [
+      { en: "subway / tube", es: "metro" },
+      { en: "city center", es: "centro de la ciudad" },
+      { en: "along the river", es: "a lo largo del río" },
+      { en: "to try food", es: "probar comida" },
+      { en: "to mind", es: "importarle a uno" }
+    ],
+    grammar: [
+      "**Pasado simple** con verbos regulares e irregulares: <code>traveled</code>, <code>took</code>, <code>saw</code>.",
+      "**<em>Didn't mind</em>** — negativo en pasado con verbo base: <code>didn't mind</code>.",
+      "**<em>Too + adjective + to + verbo</em>:** <code>too excited to care</code>."
+    ],
+    note: "**Fish and chips** es un platillo típico británico (pescado empanizado con papas fritas gruesas). En inglés británico se dice **chips** para las papas fritas gruesas, mientras que **fries** son las delgadas al estilo americano."
+  },
+  {
+    level: "medium",
+    title: "The Importance of Exercise",
+    subtitle: "La importancia del ejercicio",
+    en: [
+      "Regular exercise **is** one of the best things you **can do** for your health. It **helps** your body and your mind in many ways.",
+      "First, exercise **keeps** your heart healthy and **helps** you maintain a good weight. Second, it **reduces** stress and **improves** your mood. Many people **feel** happier after a good workout.",
+      "You **don't need** a gym to exercise. You **can walk**, **run**, **swim**, or **dance** at home. The important thing **is** to be consistent. Even thirty minutes a day **can make** a big difference."
+    ],
+    es: [
+      "El ejercicio regular es una de las mejores cosas que puedes hacer por tu salud. Ayuda a tu cuerpo y a tu mente de muchas maneras.",
+      "Primero, el ejercicio mantiene tu corazón saludable y te ayuda a mantener un buen peso. Segundo, reduce el estrés y mejora tu estado de ánimo. Muchas personas se sienten más felices después de un buen entrenamiento.",
+      "No necesitas un gimnasio para hacer ejercicio. Puedes caminar, correr, nadar o bailar en casa. Lo importante es ser constante. Incluso treinta minutos al día pueden marcar una gran diferencia."
+    ],
+    vocab: [
+      { en: "regular exercise", es: "ejercicio regular" },
+      { en: "to keep healthy", es: "mantenerse saludable" },
+      { en: "to reduce stress", es: "reducir el estrés" },
+      { en: "workout", es: "entrenamiento" },
+      { en: "consistent", es: "constante" }
+    ],
+    grammar: [
+      "**Verbos modales** para consejos y habilidades: <code>can do</code>, <code>can walk</code>.",
+      "**Conectores de orden:** <code>First</code>, <code>Second</code>, <code>Finally</code>.",
+      "**<em>Don't need</em>** — negación en presente: <code>you don't need</code>."
+    ],
+    note: "En inglés, la palabra **exercise** puede ser contable o incontable según el contexto: <em>'Exercise is good for you'</em> (incontable) vs. <em>'I do three exercises every morning'</em> (contable, se refiere a ejercicios específicos)."
+  },
+  {
+    level: "medium",
+    title: "Learning a New Language",
+    subtitle: "Aprender un nuevo idioma",
+    en: [
+      "Learning a new language **is** a challenging but very rewarding experience. It **takes** time, patience, and practice, but the results **are** worth it.",
+      "There **are** many ways to learn. You **can take** classes, **use** mobile apps, **watch** movies with subtitles, or **talk** to native speakers online. The key **is** to practice every day, even if it **is** just for a few minutes.",
+      "The biggest mistake **is** to be afraid of making mistakes. When you **make** a mistake, you **learn** from it. The most important thing **is** to keep going and not give up."
+    ],
+    es: [
+      "Aprender un nuevo idioma es una experiencia desafiante pero muy gratificante. Toma tiempo, paciencia y práctica, pero los resultados valen la pena.",
+      "Hay muchas maneras de aprender. Puedes tomar clases, usar aplicaciones móviles, ver películas con subtítulos o hablar con hablantes nativos en línea. La clave es practicar todos los días, aunque sea solo unos minutos.",
+      "El error más grande es tener miedo de cometer errores. Cuando cometes un error, aprendes de él. Lo más importante es seguir adelante y no rendirse."
+    ],
+    vocab: [
+      { en: "rewarding", es: "gratificante" },
+      { en: "native speaker", es: "hablante nativo" },
+      { en: "subtitle", es: "subtítulo" },
+      { en: "to make a mistake", es: "cometer un error" },
+      { en: "to give up", es: "rendirse" }
+    ],
+    grammar: [
+      "**Gerundio como sujeto:** <code>Learning a new language is...</code>.",
+      "**<em>There are many ways to...</em>** — estructura para hablar de opciones.",
+      "**<em>Even if</em>** — concesión: <code>even if it is just for a few minutes</code>."
+    ],
+    note: "En inglés, cuando el sujeto de una oración es un verbo, se usa la forma **-ing**: <em>'Learning is fun'</em> ✅, no <em>'Learn is fun'</em> ❌. Este es un error muy común entre hispanohablantes."
+  },
+  {
+    level: "medium",
+    title: "The Impact of Social Media",
+    subtitle: "El impacto de las redes sociales",
+    en: [
+      "Social media **has changed** the way we communicate. Today, we **can connect** with people from all over the world in seconds. However, this **has** both positive and negative effects.",
+      "On the positive side, social media **helps** us stay in touch with friends and family. It **also allows** us to share our ideas and learn new things. Many small businesses **have grown** thanks to social media.",
+      "On the negative side, it **can be** addictive. Some people **spend** hours scrolling without realizing it. It **can also affect** our mental health, especially in young people. The key **is** to use it wisely."
+    ],
+    es: [
+      "Las redes sociales han cambiado la forma en que nos comunicamos. Hoy, podemos conectar con personas de todo el mundo en segundos. Sin embargo, esto tiene efectos tanto positivos como negativos.",
+      "Por el lado positivo, las redes sociales nos ayudan a mantenernos en contacto con amigos y familiares. También nos permiten compartir nuestras ideas y aprender cosas nuevas. Muchos pequeños negocios han crecido gracias a las redes sociales.",
+      "Por el lado negativo, pueden ser adictivas. Algunas personas pasan horas desplazándose sin darse cuenta. También pueden afectar nuestra salud mental, especialmente en los jóvenes. La clave es usarlas con sabiduría."
+    ],
+    vocab: [
+      { en: "to stay in touch", es: "mantenerse en contacto" },
+      { en: "addictive", es: "adictivo" },
+      { en: "to scroll", es: "desplazarse (en pantalla)" },
+      { en: "mental health", es: "salud mental" },
+      { en: "wisely", es: "con sabiduría" }
+    ],
+    grammar: [
+      "**Presente perfecto:** <code>has changed</code>, <code>have grown</code>. Para cambios que continúan.",
+      "**<em>On the positive side / On the negative side</em>:** estructuras para balancear argumentos.",
+      "**<em>Can be / can affect</em>:** modales para hablar de posibilidades."
+    ],
+    note: "El **presente perfecto** (<em>has changed</em>, <em>have grown</em>) se usa para acciones del pasado que tienen relevancia en el presente. Es diferente del pasado simple, que solo narra hechos terminados."
+  },
+  {
+    level: "medium",
+    title: "A Balanced Diet",
+    subtitle: "Una dieta balanceada",
+    en: [
+      "Eating a balanced diet **is** essential for good health. A balanced diet **means** eating different types of food in the right amounts.",
+      "You **should eat** fruits and vegetables every day. They **provide** vitamins and minerals that your body **needs**. You **should also eat** proteins like meat, fish, eggs, or beans. Carbohydrates such as rice, pasta, and bread **give** you energy.",
+      "You **don't have to** stop eating sweets completely. The idea **is** to eat them in moderation. Drinking water **is also important**. Many people **don't drink** enough water during the day."
+    ],
+    es: [
+      "Comer una dieta balanceada es esencial para una buena salud. Una dieta balanceada significa comer diferentes tipos de alimentos en las cantidades correctas.",
+      "Deberías comer frutas y verduras todos los días. Proporcionan vitaminas y minerales que tu cuerpo necesita. También deberías comer proteínas como carne, pescado, huevos o frijoles. Los carbohidratos como el arroz, la pasta y el pan te dan energía.",
+      "No tienes que dejar de comer dulces por completo. La idea es comerlos con moderación. Beber agua también es importante. Muchas personas no beben suficiente agua durante el día."
+    ],
+    vocab: [
+      { en: "balanced diet", es: "dieta balanceada" },
+      { en: "vegetables / fruits", es: "verduras / frutas" },
+      { en: "vitamins / minerals", es: "vitaminas / minerales" },
+      { en: "carbs", es: "carbohidratos" },
+      { en: "in moderation", es: "con moderación" }
+    ],
+    grammar: [
+      "**<em>Should</em>** para consejos: <code>You should eat...</code>.",
+      "**<em>Don't have to</em>** — ausencia de obligación (≠ <em>must not</em>).",
+      "**<em>Such as</em>** para dar ejemplos: <code>carbohydrates such as rice</code>."
+    ],
+    note: "Cuidado con la diferencia entre **<em>don't have to</em>** (no es necesario) y **<em>must not</em>** (está prohibido). Es una trampa muy común: <em>'You don't have to come'</em> = no es obligatorio; <em>'You must not come'</em> = no puedes venir."
+  },
+
+  // ==================== 🟣 AVANZADO ====================
+  {
+    level: "advanced",
+    title: "The Power of Habits",
+    subtitle: "El poder de los hábitos",
+    en: [
+      "Our lives **are shaped** by our habits, often more than we realize. Small actions, **repeated** consistently over time, **can lead** to remarkable changes.",
+      "Research **has shown** that it **takes** an average of 66 days to form a new habit. This means that consistency **matters** more than intensity. Trying to change everything at once usually **leads** to failure.",
+      "The most effective strategy **is** to start small. If you **want** to exercise more, **begin** with just five minutes a day. Once the habit **is established**, you **can gradually increase** the time. By making habits easy to start, we **make** them harder to quit."
+    ],
+    es: [
+      "Nuestras vidas están moldeadas por nuestros hábitos, a menudo más de lo que creemos. Pequeñas acciones, repetidas de manera consistente a lo largo del tiempo, pueden llevar a cambios notables.",
+      "La investigación ha demostrado que se necesitan en promedio 66 días para formar un nuevo hábito. Esto significa que la consistencia importa más que la intensidad. Tratar de cambiarlo todo a la vez generalmente lleva al fracaso.",
+      "La estrategia más efectiva es empezar poco a poco. Si quieres hacer más ejercicio, comienza con solo cinco minutos al día. Una vez que el hábito está establecido, puedes aumentar gradualmente el tiempo. Al hacer que los hábitos sean fáciles de empezar, los hacemos más difíciles de abandonar."
+    ],
+    vocab: [
+      { en: "to be shaped by", es: "ser moldeado por" },
+      { en: "consistently", es: "de manera consistente" },
+      { en: "remarkable", es: "notable / extraordinario" },
+      { en: "to establish a habit", es: "establecer un hábito" },
+      { en: "to quit", es: "abandonar / dejar" }
+    ],
+    grammar: [
+      "**Voz pasiva:** <code>Our lives are shaped</code>, <code>the habit is established</code>.",
+      "**Presente perfecto:** <code>Research has shown</code>.",
+      "**<em>Once + presente</em>:** <code>Once the habit is established, you can...</code>."
+    ],
+    note: "La **voz pasiva** (<em>are shaped</em>, <em>is established</em>) se usa mucho en inglés formal y académico para enfatizar la acción, no quién la hace. En español se traduce muchas veces con <em>se</em> o con la pasiva refleja."
+  },
+  {
+    level: "advanced",
+    title: "The Future of Work",
+    subtitle: "El futuro del trabajo",
+    en: [
+      "The world of work **is changing** rapidly. Automation and artificial intelligence **are transforming** entire industries, and many jobs that **exist** today **may not exist** in twenty years.",
+      "While some **see** this as a threat, others **argue** that it **is** an opportunity. New technologies **create** new roles that **didn't exist** before. The challenge **is** to ensure that workers **have** the skills **needed** to adapt.",
+      "In the future, remote work **is likely to become** more common. Companies **have already realized** that productivity **doesn't depend** on being in an office. This shift **could improve** work-life balance, but it **might also blur** the boundaries between work and personal life."
+    ],
+    es: [
+      "El mundo del trabajo está cambiando rápidamente. La automatización y la inteligencia artificial están transformando industrias enteras, y muchos empleos que existen hoy podrían no existir en veinte años.",
+      "Mientras algunos ven esto como una amenaza, otros argumentan que es una oportunidad. Las nuevas tecnologías crean nuevos roles que no existían antes. El reto es asegurar que los trabajadores tengan las habilidades necesarias para adaptarse.",
+      "En el futuro, el trabajo remoto probablemente se volverá más común. Las empresas ya se han dado cuenta de que la productividad no depende de estar en una oficina. Este cambio podría mejorar el equilibrio trabajo-vida, pero también podría difuminar los límites entre el trabajo y la vida personal."
+    ],
+    vocab: [
+      { en: "automation", es: "automatización" },
+      { en: "to transform", es: "transformar" },
+      { en: "to blur boundaries", es: "difuminar límites" },
+      { en: "work-life balance", es: "equilibrio trabajo-vida" },
+      { en: "shift", es: "cambio / turno" }
+    ],
+    grammar: [
+      "**Presente continuo para tendencias:** <code>is changing</code>, <code>are transforming</code>.",
+      "**<em>May not / might also</em>:** modales para probabilidad.",
+      "**<em>Is likely to become</em>:** estructura para predicciones."
+    ],
+    note: "**<em>Likely</em>** es un adjetivo, no un adverbio: <em>'It is likely to happen'</em> ✅, no <em>'It likely happens'</em> ❌. Cuando quieres decir 'probablemente', usa <em>probably</em>."
+  },
+  {
+    level: "advanced",
+    title: "The Art of Persuasion",
+    subtitle: "El arte de la persuasión",
+    en: [
+      "Persuasion **is not about** forcing people to agree with you. It **is about** understanding their perspective and presenting your ideas in a way that **resonates** with them.",
+      "Effective communicators **know** that emotions **play** a bigger role than logic. While facts and data **are important**, they **rarely change** someone's mind on their own. What **moves** people **is** a story that **connects** with their values.",
+      "Another key element **is** credibility. If people **don't trust** you, they **won't listen** to you, no matter how good your argument **is**. Building trust **takes** time, but it **is** the foundation of any successful persuasion."
+    ],
+    es: [
+      "La persuasión no se trata de forzar a las personas a estar de acuerdo contigo. Se trata de entender su perspectiva y presentar tus ideas de una manera que resuene con ellas.",
+      "Los comunicadores efectivos saben que las emociones juegan un papel más grande que la lógica. Aunque los hechos y los datos son importantes, rara vez cambian la opinión de alguien por sí solos. Lo que mueve a las personas es una historia que conecta con sus valores.",
+      "Otro elemento clave es la credibilidad. Si las personas no confían en ti, no te escucharán, sin importar qué tan bueno sea tu argumento. Construir confianza toma tiempo, pero es la base de cualquier persuasión exitosa."
+    ],
+    vocab: [
+      { en: "persuasion", es: "persuasión" },
+      { en: "to resonate with", es: "resonar con" },
+      { en: "credibility", es: "credibilidad" },
+      { en: "foundation", es: "base / fundamento" },
+      { en: "no matter how", es: "sin importar qué tan" }
+    ],
+    grammar: [
+      "**<em>Is not about X, it is about Y</em>:** contraste para redefinir un concepto.",
+      "**<em>No matter how + adjetivo + sujeto + verbo</em>:** concesión.",
+      "**Voz pasiva** en frases impersonales: <code>What moves people is...</code>."
+    ],
+    note: "**<em>No matter how</em>** es una estructura muy útil y muy inglesa. Significa 'sin importar qué tan'. Otras variantes: <em>no matter what</em>, <em>no matter where</em>, <em>no matter who</em>."
+  },
+  {
+    level: "advanced",
+    title: "Cultural Differences",
+    subtitle: "Diferencias culturales",
+    en: [
+      "When you **travel** or **live** abroad, you **quickly realize** that cultural differences **go** far beyond language. The way people **greet** each other, **express** emotions, or **handle** time **varies** greatly from one culture to another.",
+      "In some countries, **being** direct **is** considered honest and respectful. In others, indirect communication **is** preferred to avoid conflict. What **is** polite in one place **may seem** rude in another.",
+      "Understanding these differences **doesn't mean** you **have to** change who you are. It **means** being aware and respectful. Cultural intelligence **is** not about knowing every custom, but about being curious and open-minded."
+    ],
+    es: [
+      "Cuando viajas o vives en el extranjero, rápidamente te das cuenta de que las diferencias culturales van mucho más allá del idioma. La forma en que las personas se saludan, expresan emociones o manejan el tiempo varía mucho de una cultura a otra.",
+      "En algunos países, ser directo se considera honesto y respetuoso. En otros, se prefiere la comunicación indirecta para evitar conflictos. Lo que es educado en un lugar puede parecer grosero en otro.",
+      "Entender estas diferencias no significa que tengas que cambiar quién eres. Significa ser consciente y respetuoso. La inteligencia cultural no se trata de conocer cada costumbre, sino de ser curioso y de mente abierta."
+    ],
+    vocab: [
+      { en: "abroad", es: "en el extranjero" },
+      { en: "to greet", es: "saludar" },
+      { en: "indirect communication", es: "comunicación indirecta" },
+      { en: "open-minded", es: "de mente abierta" },
+      { en: "custom", es: "costumbre" }
+    ],
+    grammar: [
+      "**Gerundio como sujeto:** <code>Being direct is...</code>.",
+      "**<em>May seem</em>:** modal + verbo para apariencia.",
+      "**<em>Not about X, but about Y</em>:** contraste para definir."
+    ],
+    note: "En inglés, **<em>abroad</em>** es un adverbio, no un sustantivo: <em>'I live abroad'</em> ✅, no <em>'I live in abroad'</em> ❌. Se usa sin preposición."
+  },
+  {
+    level: "advanced",
+    title: "The Value of Failure",
+    subtitle: "El valor del fracaso",
+    en: [
+      "In many cultures, failure **is seen** as something to avoid at all costs. However, some of the most successful people **argue** that failure **is** an essential part of growth.",
+      "When you **fail**, you **learn** things that success **can never teach** you. You **discover** your limits, **identify** your weaknesses, and **develop** resilience. The key **is not** to avoid failure, but to **fail forward** — that is, to make failure a stepping stone rather than a dead end.",
+      "What **separates** those who succeed from those who don't **is not** talent, but the willingness to keep going after setbacks. As the saying **goes**, 'Success **is** not final, failure **is** not fatal: it **is** the courage to continue that **counts**.'"
+    ],
+    es: [
+      "En muchas culturas, el fracaso se ve como algo que hay que evitar a toda costa. Sin embargo, algunas de las personas más exitosas argumentan que el fracaso es una parte esencial del crecimiento.",
+      "Cuando fracasas, aprendes cosas que el éxito nunca puede enseñarte. Descubres tus límites, identificas tus debilidades y desarrollas resiliencia. La clave no es evitar el fracaso, sino 'fracasar hacia adelante', es decir, hacer del fracaso un peldaño en lugar de un callejón sin salida.",
+      "Lo que separa a quienes triunfan de quienes no lo hacen no es el talento, sino la disposición a seguir adelante después de los reveses. Como dice el dicho: 'El éxito no es definitivo, el fracaso no es fatal: es el coraje de continuar lo que cuenta.'"
+    ],
+    vocab: [
+      { en: "at all costs", es: "a toda costa" },
+      { en: "resilience", es: "resiliencia" },
+      { en: "setback", es: "revés / contratiempo" },
+      { en: "stepping stone", es: "peldaño / trampolín" },
+      { en: "dead end", es: "callejón sin salida" }
+    ],
+    grammar: [
+      "**Voz pasiva:** <code>Failure is seen as...</code>.",
+      "**<em>What separates X from Y is...</em>:** estructura enfática.",
+      "**<em>As the saying goes</em>:** frase hecha para citar refranes."
+    ],
+    note: "La frase final es una cita famosa de **Winston Churchill**. En inglés, las citas se introducen con <em>'As the saying goes...'</em> o <em>'As [person] once said...'</em>. Suena natural y culto."
+  },
+  {
+    level: "advanced",
+    title: "Technology and Loneliness",
+    subtitle: "Tecnología y soledad",
+    en: [
+      "Paradoxically, in an era of unprecedented connectivity, loneliness **has become** an epidemic. We **are more connected** than ever, yet many people **feel** more isolated than before.",
+      "Social media **gives** us the illusion of connection. We **see** others' highlight reels and **compare** them to our ordinary lives. This comparison **often leads** to anxiety and dissatisfaction. What we **fail to realize** is that everyone's life **is** a mix of highs and lows.",
+      "The solution **is not** to abandon technology, but to use it more intentionally. Real connection **requires** vulnerability, presence, and time — things that a 'like' **can never replace**."
+    ],
+    es: [
+      "Paradójicamente, en una era de conectividad sin precedentes, la soledad se ha convertido en una epidemia. Estamos más conectados que nunca, y sin embargo muchas personas se sienten más aisladas que antes.",
+      "Las redes sociales nos dan la ilusión de conexión. Vemos los momentos destacados de los demás y los comparamos con nuestras vidas ordinarias. Esta comparación a menudo conduce a la ansiedad y la insatisfacción. Lo que no logramos comprender es que la vida de todos es una mezcla de altibajos.",
+      "La solución no es abandonar la tecnología, sino usarla de manera más intencional. La conexión real requiere vulnerabilidad, presencia y tiempo, cosas que un 'me gusta' nunca puede reemplazar."
+    ],
+    vocab: [
+      { en: "unprecedented", es: "sin precedentes" },
+      { en: "loneliness", es: "soledad" },
+      { en: "highlight reel", es: "resumen de lo mejor" },
+      { en: "intentionally", es: "intencionalmente" },
+      { en: "vulnerability", es: "vulnerabilidad" }
+    ],
+    grammar: [
+      "**Presente perfecto:** <code>has become</code>.",
+      "**<em>Yet</em>** como conector de contraste: <code>yet many people feel...</code>.",
+      "**<em>What we fail to realize is...</em>:** estructura enfática muy usada en inglés culto."
+    ],
+    note: "**<em>Highlight reel</em>** literalmente significa 'rollo de lo mejor'. En el contexto de redes sociales, se refiere a la selección de los mejores momentos que la gente publica, ocultando lo difícil de su vida diaria."
+  },
+
+  // ==================== 🔴 EXPERTO ====================
+  {
+    level: "expert",
+    title: "The Paradox of Choice",
+    subtitle: "La paradoja de la elección",
+    en: [
+      "Modern societies **are built** on the premise that more choice **leads** to more freedom and, consequently, more happiness. However, psychological research **has repeatedly demonstrated** that the opposite **may often be true**.",
+      "When confronted with an overwhelming array of options, individuals **tend** to experience what psychologists **call** 'decision paralysis.' Rather than **empowering** us, excessive choice **can produce** anxiety and dissatisfaction. Even after a decision **has been made**, the lingering awareness of unchosen alternatives **diminishes** our satisfaction with the outcome.",
+      "This phenomenon **has profound implications** for consumer culture, career decisions, and even personal relationships. The challenge, therefore, **is not** to maximize options, but to develop the wisdom to recognize when 'good enough' **truly is** good enough."
+    ],
+    es: [
+      "Las sociedades modernas están construidas sobre la premisa de que más opciones conducen a más libertad y, en consecuencia, a más felicidad. Sin embargo, la investigación psicológica ha demostrado repetidamente que lo contrario puede ser a menudo cierto.",
+      "Cuando se enfrentan a una variedad abrumadora de opciones, las personas tienden a experimentar lo que los psicólogos llaman 'parálisis por decisión'. En lugar de empoderarnos, el exceso de opciones puede producir ansiedad e insatisfacción. Incluso después de que se ha tomado una decisión, la conciencia persistente de las alternativas no elegidas disminuye nuestra satisfacción con el resultado.",
+      "Este fenómeno tiene profundas implicaciones para la cultura del consumo, las decisiones profesionales e incluso las relaciones personales. El reto, por lo tanto, no es maximizar las opciones, sino desarrollar la sabiduría para reconocer cuándo 'suficientemente bueno' realmente es suficientemente bueno."
+    ],
+    vocab: [
+      { en: "premise", es: "premisa" },
+      { en: "decision paralysis", es: "parálisis por decisión" },
+      { en: "to empower", es: "empoderar" },
+      { en: "lingering", es: "persistente / que perdura" },
+      { en: "implication", es: "implicación / consecuencia" }
+    ],
+    grammar: [
+      "**Voz pasiva perfecta:** <code>has been demonstrated</code>, <code>has been made</code>.",
+      "**<em>Rather than + gerundio</em>:** <code>Rather than empowering us...</code>.",
+      "**<em>The challenge is not to X, but to Y</em>:** estructura de contraste formal."
+    ],
+    note: "Este tipo de texto usa un registro **académico**: abundan la voz pasiva, los gerundios como sujeto, y vocabulario abstracto. Es el estilo típico de ensayos, artículos científicos y libros de no ficción."
+  },
+  {
+    level: "expert",
+    title: "Language and Thought",
+    subtitle: "Lenguaje y pensamiento",
+    en: [
+      "The relationship between language and thought **has fascinated** philosophers and linguists for centuries. The central question **is** whether the language we **speak** shapes the way we **think**, or whether our thoughts **exist** independently of language.",
+      "The Sapir-Whorf hypothesis **proposes** that the structure of a language **influences** its speakers' perception of reality. While strong versions of this hypothesis **have been largely discredited**, weaker versions **continue to find** empirical support. For instance, speakers of languages that **distinguish** between different shades of blue **tend** to perceive those distinctions more accurately.",
+      "Regardless of where one **stands** on this debate, it **is undeniable** that language **provides** the framework through which we **articulate** our inner lives. To learn another language, therefore, **is not merely** to acquire a new vocabulary — it **is** to gain access to a different way of experiencing the world."
+    ],
+    es: [
+      "La relación entre el lenguaje y el pensamiento ha fascinado a filósofos y lingüistas durante siglos. La pregunta central es si el idioma que hablamos moldea la forma en que pensamos, o si nuestros pensamientos existen independientemente del lenguaje.",
+      "La hipótesis Sapir-Whorf propone que la estructura de un idioma influye en la percepción de la realidad de sus hablantes. Aunque las versiones fuertes de esta hipótesis han sido en gran medida desacreditadas, las versiones más débiles continúan encontrando apoyo empírico. Por ejemplo, los hablantes de idiomas que distinguen entre diferentes tonos de azul tienden a percibir esas distinciones con mayor precisión.",
+      "Independientemente de la posición que uno adopte en este debate, es innegable que el lenguaje proporciona el marco a través del cual articulamos nuestra vida interior. Aprender otro idioma, por lo tanto, no es meramente adquirir un nuevo vocabulario: es obtener acceso a una forma diferente de experimentar el mundo."
+    ],
+    vocab: [
+      { en: "to shape", es: "moldear" },
+      { en: "hypothesis", es: "hipótesis" },
+      { en: "to discredit", es: "desacreditar" },
+      { en: "empirical support", es: "apoyo empírico" },
+      { en: "to articulate", es: "articular / expresar" }
+    ],
+    grammar: [
+      "**<em>Whether... or...</em>:** para plantear dos alternativas: <code>whether we speak... or whether our thoughts...</code>.",
+      "**<em>Regardless of where one stands</em>:** concesión formal.",
+      "**<em>Is not merely to X, it is to Y</em>:** estructura enfática culta."
+    ],
+    note: "**Sapir-Whorf** es una de las hipótesis más famosas de la lingüística. Aunque sus versiones extremas fueron criticadas, hoy se acepta que el lenguaje influye (aunque no determina completamente) nuestra percepción."
+  },
+  {
+    level: "expert",
+    title: "The Ethics of Artificial Intelligence",
+    subtitle: "La ética de la inteligencia artificial",
+    en: [
+      "As artificial intelligence **becomes** increasingly integrated into our daily lives, urgent ethical questions **arise**. Who **is accountable** when an autonomous system **makes** a harmful decision? How **do we ensure** that algorithms **do not perpetuate** existing biases?",
+      "The complexity of these questions **stems from** the fact that AI systems **are not neutral**. They **are trained** on data that **reflects** historical inequalities, and their decisions **can amplify** those inequalities on an unprecedented scale. Addressing this challenge **requires** not only technical solutions, but also robust legal and ethical frameworks.",
+      "Some argue that AI **should be regulated** as strictly as medicine or aviation. Others **contend** that excessive regulation **would stifle** innovation. What **remains clear** is that the decisions we **make** today **will shape** the role of technology in society for generations to come."
+    ],
+    es: [
+      "A medida que la inteligencia artificial se integra cada vez más en nuestra vida diaria, surgen preguntas éticas urgentes. ¿Quién es responsable cuando un sistema autónomo toma una decisión dañina? ¿Cómo aseguramos que los algoritmos no perpetúen los sesgos existentes?",
+      "La complejidad de estas preguntas proviene del hecho de que los sistemas de IA no son neutrales. Se entrenan con datos que reflejan desigualdades históricas, y sus decisiones pueden amplificar esas desigualdades a una escala sin precedentes. Abordar este desafío requiere no solo soluciones técnicas, sino también marcos legales y éticos sólidos.",
+      "Algunos argumentan que la IA debería regularse tan estrictamente como la medicina o la aviación. Otros sostienen que la regulación excesiva sofocaría la innovación. Lo que queda claro es que las decisiones que tomemos hoy moldearán el papel de la tecnología en la sociedad para las generaciones venideras."
+    ],
+    vocab: [
+      { en: "accountable", es: "responsable" },
+      { en: "to perpetuate", es: "perpetuar" },
+      { en: "bias", es: "sesgo" },
+      { en: "to stifle", es: "sofocar / reprimir" },
+      { en: "to shape the role", es: "moldear el papel" }
+    ],
+    grammar: [
+      "**<em>As + presente</em>:** <code>As AI becomes...</code> (a medida que...).",
+      "**Voz pasiva** con modales: <code>should be regulated</code>, <code>are trained</code>.",
+      "**Preguntas retóricas** dentro del texto para generar reflexión."
+    ],
+    note: "Este texto mezcla **registro académico** con **preguntas retóricas** para enganchar al lector. Es un estilo típico de artículos de opinión y ensayos contemporáneos sobre tecnología y sociedad."
+  },
+  {
+    level: "expert",
+    title: "The Illusion of Meritocracy",
+    subtitle: "La ilusión de la meritocracia",
+    en: [
+      "The belief that success **is determined** solely by talent and hard work **is deeply ingrained** in many modern societies. Yet this narrative, however appealing, **obscures** the structural factors that **shape** individual outcomes.",
+      "Access to quality education, social networks, and economic stability **are not** evenly distributed. Those **born** into privilege **enjoy** advantages that **compound** over time, while those **born** into disadvantage **must overcome** obstacles that others **never face**. To claim that the playing field **is level** **is** not only inaccurate — it **is** a form of moral blindness.",
+      "Recognizing this **does not diminish** individual effort. Rather, it **invites** us to build systems that **give** everyone a fair chance. True meritocracy, paradoxically, **requires** acknowledging how far we **are** from achieving it."
+    ],
+    es: [
+      "La creencia de que el éxito está determinado únicamente por el talento y el trabajo duro está profundamente arraigada en muchas sociedades modernas. Sin embargo, esta narrativa, por atractiva que sea, oscurece los factores estructurales que moldean los resultados individuales.",
+      "El acceso a una educación de calidad, las redes sociales y la estabilidad económica no están distribuidos equitativamente. Quienes nacen en el privilegio disfrutan de ventajas que se multiplican con el tiempo, mientras que quienes nacen en desventaja deben superar obstáculos que otros nunca enfrentan. Afirmar que el campo de juego está nivelado no solo es inexacto: es una forma de ceguera moral.",
+      "Reconocer esto no disminuye el esfuerzo individual. Más bien, nos invita a construir sistemas que le den a todos una oportunidad justa. La verdadera meritocracia, paradójicamente, requiere reconocer cuán lejos estamos de alcanzarla."
+    ],
+    vocab: [
+      { en: "ingrained", es: "arraigado" },
+      { en: "to obscure", es: "oscurecer / ocultar" },
+      { en: "to compound", es: "multiplicar / acumular" },
+      { en: "the playing field", es: "el campo de juego (metáfora de igualdad)" },
+      { en: "moral blindness", es: "ceguera moral" }
+    ],
+    grammar: [
+      "**<em>However + adjetivo + sujeto + verbo</em>:** <code>However appealing, this narrative obscures...</code>.",
+      "**<em>To claim that...</em>:** infinitivo como sujeto enfático.",
+      "**<em>Does not diminish / invites us to...</em>:** verbos en tercera persona para dar fuerza al argumento."
+    ],
+    note: "**<em>The playing field is level</em>** es una metáfora deportiva que significa 'todos parten de las mismas condiciones'. Decir que algo **isn't level** implica que hay desigualdad estructural."
+  }
+];
+
+// ============ ESTADO ============
+let leidos = JSON.parse(localStorage.getItem('textosLeidos') || '[]');
+let filtroNivel = 'all';
+let busqueda = '';
+
+// ============ TEMA ============
+const themeBtn = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeBtn.textContent = savedTheme === 'dark' ? '☀️ Modo Claro' : '🌙 Modo Oscuro';
+
+themeBtn.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  themeBtn.textContent = next === 'dark' ? '☀️ Modo Claro' : '🌙 Modo Oscuro';
+});
+
+// ============ HELPERS ============
+const levelNames = {
+  beginner: { title: "🟢 Nivel Principiante", desc: "Textos cortos con vocabulario básico, presente simple y estructuras sencillas." },
+  medium: { title: "🟡 Nivel Medio", desc: "Textos con pasado simple, presente perfecto, modales y vocabulario cotidiano." },
+  advanced: { title: "🟣 Nivel Avanzado", desc: "Textos con voz pasiva, condicionales y estructuras más complejas." },
+  expert: { title: "🔴 Nivel Experto", desc: "Textos de registro académico y ensayístico con vocabulario abstracto." }
+};
+
+// ============ RENDER ============
+const container = document.getElementById('textsContainer');
+
+function renderMarkdown(text) {
+  // Reemplazar **negrita** → <strong>
+  let html = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Reemplazar *cursiva* → <em> (pero no dentro de **)
+  html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+  // Reemplazar <code>...</code> (ya viene con tags, solo dejar)
+  return html;
+}
+
+function render() {
+  container.innerHTML = '';
+  const q = busqueda.toLowerCase();
+
+  const filtrados = textos.filter(t => {
+    const matchLevel = filtroNivel === 'all' || t.level === filtroNivel;
+    const matchSearch = !q ||
+      t.title.toLowerCase().includes(q) ||
+      t.subtitle.toLowerCase().includes(q) ||
+      t.en.join(' ').toLowerCase().includes(q) ||
+      t.es.join(' ').toLowerCase().includes(q);
+    return matchLevel && matchSearch;
+  });
+
+  if (filtrados.length === 0) {
+    container.innerHTML = '<p class="empty">No se encontraron textos con estos filtros.</p>';
+    actualizarProgreso();
+    return;
+  }
+
+  // Agrupar por nivel
+  const grupos = { beginner: [], medium: [], advanced: [], expert: [] };
+  filtrados.forEach(t => grupos[t.level].push(t));
+
+  Object.keys(grupos).forEach(level => {
+    if (grupos[level].length === 0) return;
+
+    // Título del nivel
+    const levelTitle = document.createElement('h2');
+    levelTitle.className = `level-title ${level}`;
+    levelTitle.textContent = levelNames[level].title;
+    container.appendChild(levelTitle);
+
+    const levelDesc = document.createElement('p');
+    levelDesc.className = 'level-desc';
+    levelDesc.textContent = levelNames[level].desc;
+    container.appendChild(levelDesc);
+
+    // Tarjetas
+    grupos[level].forEach((t, idx) => {
+      const isRead = leidos.includes(t.title);
+      const card = document.createElement('div');
+      card.className = 'text-card' + (isRead ? ' read' : '');
+
+      // Procesar texto inglés con palabras clave
+      const enHTML = t.en.map(p => {
+        let processed = p;
+        // Negritas
+        processed = processed.replace(/\*\*(.+?)\*\*/g, '<span class="key">$1</span>');
+        return `<p>${processed}</p>`;
+      }).join('');
+
+      const esHTML = t.es.map(p => `<p>${p}</p>`).join('');
+
+      const vocabHTML = t.vocab.map(v =>
+        `<li><strong>${v.en}</strong> — ${v.es}</li>`
+      ).join('');
+
+      const grammarHTML = t.grammar.map(g => {
+        const clean = g.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        return `<li>${clean}</li>`;
+      }).join('');
+
+      const transId = `trans-${level}-${idx}`;
+      const btnId = `btn-${level}-${idx}`;
+
+      card.innerHTML = `
+        <div class="text-header">
+          <div>
+            <div class="text-title">${t.title}</div>
+            <div class="text-subtitle">${t.subtitle}</div>
+          </div>
+          <div class="text-check">
+            <label>Leído</label>
+            <input type="checkbox" data-title="${encodeURIComponent(t.title)}" ${isRead ? 'checked' : ''}>
+          </div>
+        </div>
+
+        <div class="en-text">
+          ${enHTML}
+        </div>
+
+        <button class="toggle-btn" id="${btnId}" data-target="${transId}">
+          <span class="arrow">▼</span> Ver traducción
+        </button>
+
+        <div class="translation-panel" id="${transId}">
+          <div class="translation-content">
+            ${esHTML}
+          </div>
+        </div>
+
+        <div class="section-block vocab-block">
+          <h4>📚 Vocabulario clave</h4>
+          <ul>${vocabHTML}</ul>
+        </div>
+
+        <div class="section-block grammar-block">
+          <h4>📐 Explicación gramatical</h4>
+          <ul>${grammarHTML}</ul>
+        </div>
+
+        ${t.note ? `
+          <div class="section-block note-block">
+            <h4>💡 Nota cultural / Tip</h4>
+            <p>${renderMarkdown(t.note)}</p>
+          </div>
+        ` : ''}
+      `;
+
+      container.appendChild(card);
+    });
+  });
+
+  // Listeners de botones de traducción
+  container.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.target;
+      const panel = document.getElementById(targetId);
+      btn.classList.toggle('open');
+      panel.classList.toggle('open');
+      const isOpen = panel.classList.contains('open');
+      btn.innerHTML = `<span class="arrow">▼</span> ${isOpen ? 'Ocultar traducción' : 'Ver traducción'}`;
+    });
+  });
+
+  // Listeners de checkboxes
+  container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', (e) => {
+      const title = decodeURIComponent(e.target.dataset.title);
+      if (e.target.checked) {
+        if (!leidos.includes(title)) leidos.push(title);
+      } else {
+        leidos = leidos.filter(t => t !== title);
+      }
+      localStorage.setItem('textosLeidos', JSON.stringify(leidos));
+      e.target.closest('.text-card').classList.toggle('read', e.target.checked);
+      actualizarProgreso();
+    });
+  });
+
+  actualizarProgreso();
+}
+
+function actualizarProgreso() {
+  const total = textos.length;
+  const hechos = leidos.length;
+  const pct = total ? (hechos / total) * 100 : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressTxt').textContent =
+    `${hechos} de ${total} textos dominados (${pct.toFixed(1)}%)`;
+}
+
+// ============ FILTROS ============
+document.querySelectorAll('#levelFilters button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#levelFilters button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filtroNivel = btn.dataset.level;
+    render();
+  });
+});
+
+// ============ BUSCADOR ============
+document.getElementById('searchBox').addEventListener('input', (e) => {
+  busqueda = e.target.value;
+  render();
+});
+
+// ============ INIT ============
+render();
+</script>
+
+</body>
+</html>
